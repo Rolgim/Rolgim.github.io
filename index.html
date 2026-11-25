@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Views from space</title>
+<meta name="description" content="Three interactive guides to the spacecraft that observe the Universe, the Solar System and the Earth: 3D models, sourced fact sheets, instruments and real archive data. In English and French.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#14171A">
+<link rel="alternate" hreflang="en" href="https://rolgim.github.io/#en">
+<link rel="alternate" hreflang="fr" href="https://rolgim.github.io/#fr">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>
+/* Thème et langue choisis avant le premier rendu, pour éviter un clignotement.
+   Langue : #fr / #en dans le lien, puis choix mémorisé, sinon anglais (comme les trois sites). */
+(function(){
+  var d = document.documentElement, t, l;
+  try { t = localStorage.getItem('home-theme'); } catch(e){}
+  if (t === 'dark' || t === 'light') d.setAttribute('data-theme', t);
+  var m = /^#(en|fr)\b/.exec(location.hash || ''); l = m && m[1];
+  if (!l) try { l = localStorage.getItem('home-lang'); } catch(e){}
+  d.lang = (l === 'fr') ? 'fr' : 'en';
+})();
+</script>
+<style>
+/* Même parti pris que les trois sites : une fiche technique imprimée (papier gris froid, encre noire, Archivo),
+   posée à côté de hublots noirs. Chaque site garde sa couleur de surlignage : jaune, bleu, vert. */
+:root{
+  --paper:#ECEEEF; --sheet:#F7F8F8; --ink:#14171A; --ink-2:#3A4147; --mute:#5A6369; --rule:#C8CDD1; --rule-2:#98A1A7;
+  --obs:#FFD21F; --on-obs:#14171A; --sse:#2F6FE4; --on-sse:#FFFFFF; --eo:#127A46; --on-eo:#FFFFFF;
+  --f:'Archivo', 'Helvetica Neue', Arial, sans-serif; --f-code:'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --gl:max(16px, env(safe-area-inset-left, 0px)); --gr:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --paper:#1C1F22; --sheet:#262A2E; --ink:#F1F3F4; --ink-2:#C6CCD1; --mute:#939CA3; --rule:#3B4147; --rule-2:#5C656D; color-scheme:dark; } }
+:root[data-theme="dark"]{ --paper:#1C1F22; --sheet:#262A2E; --ink:#F1F3F4; --ink-2:#C6CCD1; --mute:#939CA3; --rule:#3B4147; --rule-2:#5C656D; color-scheme:dark; }
+
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--f); font-size:16px; line-height:1.5; }
+a{ color:inherit; }
+a:focus-visible, button:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
+button{ font-family:inherit; color:inherit; }
+.skip{ position:absolute; left:-9999px; top:8px; background:var(--ink); color:var(--paper); padding:8px 12px; z-index:2; }
+.skip:focus{ left:var(--gl); }
+
+/* ---------- en-tête ---------- */
+header{ display:flex; align-items:center; gap:16px; min-height:55px; padding:0 var(--gr) 0 var(--gl); border-bottom:1px solid var(--rule); }
+.mark{ display:flex; align-items:center; gap:10px; font-weight:800; font-stretch:75%; font-size:19px; letter-spacing:.1px; text-decoration:none; white-space:nowrap; }
+.mark svg{ width:26px; height:26px; flex:none; }
+.tools{ margin-left:auto; display:flex; gap:6px; }
+.tools button{ border:1px solid var(--rule-2); background:transparent; border-radius:4px; min-width:44px; min-height:36px; padding:4px 10px; font-size:13px; font-weight:600; cursor:pointer; }
+.tools button:hover{ background:var(--sheet); }
+.tools svg{ width:16px; height:16px; vertical-align:-3px; }
+
+main{ max-width:1180px; margin:0 auto; padding:0 var(--gr) 0 var(--gl); }
+
+/* ---------- ouverture ---------- */
+.intro{ padding:56px 0 40px; max-width:780px; }
+.kicker{ font-family:var(--f-code); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--mute); margin:0 0 14px; }
+h1{ font-weight:800; font-stretch:72%; font-size:clamp(40px, 7.4vw, 76px); line-height:.98; letter-spacing:-.5px; margin:0 0 20px; }
+.lede{ font-size:clamp(17px, 2.1vw, 20px); color:var(--ink-2); margin:0; max-width:62ch; }
+
+/* ---------- les trois sites ---------- */
+.sites{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px; }
+.site{ display:flex; flex-direction:column; background:var(--sheet); border:1px solid var(--rule); border-radius:6px; overflow:hidden; position:relative; }
+.site .port{ display:block; background:#000; aspect-ratio:16/10; border-bottom:4px solid var(--acc); }
+.site .port svg{ display:block; width:100%; height:100%; }
+.site .body{ padding:18px 20px 20px; display:flex; flex-direction:column; flex:1; gap:10px; }
+.site .dir{ font-family:var(--f-code); font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--mute); margin:0; display:flex; align-items:center; gap:8px; }
+.site .dir::before{ content:""; width:10px; height:10px; border-radius:50%; background:var(--acc); flex:none; box-shadow:0 0 0 1px var(--rule-2); }
+.site h2{ font-weight:800; font-stretch:78%; font-size:28px; line-height:1.05; margin:0; }
+.site h2 a{ text-decoration:none; }
+/* toute la carte cliquable, sans imbriquer de liens */
+.site h2 a::after{ content:""; position:absolute; inset:0; z-index:0; }
+.site h2 a:focus-visible{ outline:none; }
+.site:has(h2 a:focus-visible){ outline:2px solid var(--ink); outline-offset:3px; }
+.site:hover{ border-color:var(--rule-2); }
+.site:hover h2 a{ text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px; }
+.site .alt{ font-size:13.5px; color:var(--mute); margin:-6px 0 0; font-style:italic; }
+.site p.desc{ margin:0; color:var(--ink-2); font-size:15.5px; }
+.site .count{ display:flex; align-items:baseline; gap:8px; margin:4px 0 0; }
+.site .count b{ font-weight:800; font-stretch:75%; font-size:34px; line-height:1; font-variant-numeric:tabular-nums; }
+.site .count span{ font-size:14px; color:var(--mute); }
+.site .ex{ font-family:var(--f-code); font-size:12.5px; color:var(--mute); margin:0; }
+.site .links{ margin-top:auto; padding-top:8px; display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; position:relative; z-index:1; }
+.site .go{ display:inline-flex; align-items:center; gap:6px; background:var(--acc); color:var(--on-acc); font-weight:700; font-size:14.5px; padding:9px 14px; border-radius:4px; text-decoration:none; }
+.site .go:hover{ filter:brightness(1.08); }
+.site .code{ font-size:14px; color:var(--ink-2); text-underline-offset:3px; }
+.site.obs{ --acc:var(--obs); --on-acc:var(--on-obs); }
+.site.sse{ --acc:var(--sse); --on-acc:var(--on-sse); }
+.site.eo { --acc:var(--eo);  --on-acc:var(--on-eo); }
+
+/* ---------- ce qu'ils partagent ---------- */
+section.common{ margin:64px 0 0; padding:32px 0 0; border-top:1px solid var(--ink); }
+section.common h2{ font-weight:800; font-stretch:78%; font-size:30px; margin:0 0 20px; }
+.rules{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:0 32px; }
+.rules li{ padding:14px 0 16px; border-top:1px solid var(--rule); }
+.rules h3{ font-size:16px; font-weight:700; margin:0 0 4px; }
+.rules p{ margin:0; font-size:15px; color:var(--ink-2); }
+
+footer{ max-width:1180px; margin:56px auto 0; padding:20px var(--gr) 32px var(--gl); border-top:1px solid var(--rule); font-size:13.5px; color:var(--mute); display:flex; flex-wrap:wrap; gap:8px 24px; }
+footer a{ color:var(--ink-2); }
+
+@media (max-width:980px){ .sites{ grid-template-columns:1fr 1fr; } .rules{ grid-template-columns:1fr 1fr; } }
+@media (max-width:640px){
+  .sites, .rules{ grid-template-columns:1fr; }
+  .intro{ padding:36px 0 28px; }
+  .mark span{ display:none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#sites" data-t="skip">Skip to the three sites</a>
+<header>
+  <a class="mark" href="#" aria-label="Views from space">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="#14171A"/><circle cx="17" cy="40" r="7" fill="#FFD21F"/><circle cx="32" cy="24" r="7" fill="#2F6FE4"/><circle cx="47" cy="40" r="7" fill="#2FA872"/></svg>
+    <span data-t="brand">Views from space</span>
+  </a>
+  <div class="tools">
+    <button type="button" id="b-lang" lang="fr" aria-label="Lire en français">FR</button>
+    <button type="button" id="b-theme" aria-label="Dark theme"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zm0 1.5v10a5 5 0 0 1 0-10z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+
+<main>
+  <div class="intro">
+    <p class="kicker" data-t="kicker">Three interactive guides</p>
+    <h1 data-t="h1">Views from space</h1>
+    <p class="lede" data-t="lede">The spacecraft that look outwards at the Universe, across at the planets, and back down at the Earth. Each one in 3D, with a sourced fact sheet, its instruments and real data from the public archives.</p>
+  </div>
+
+  <ul class="sites" id="sites">
+    <li class="site obs">
+      <span class="port" aria-hidden="true">
+        <svg viewBox="0 0 320 200">
+          <g fill="#fff" opacity=".7"><circle cx="24" cy="30" r="1"/><circle cx="70" cy="160" r="1.2"/><circle cx="290" cy="40" r="1"/><circle cx="262" cy="170" r="1.3"/><circle cx="40" cy="96" r=".8"/><circle cx="300" cy="110" r=".8"/><circle cx="120" cy="20" r=".9"/><circle cx="214" cy="186" r=".8"/></g>
+          <path d="M96 176 L224 176 L250 190 L70 190 Z" fill="#3A4147"/><path d="M104 168 L216 168 L232 178 L88 178 Z" fill="#5A6369"/>
+          <path d="M160 99 L160 168" stroke="#98A1A7" stroke-width="1.5"/>
+          <g fill="#FFD21F" stroke="#000" stroke-width="2">
+            <polygon points="160,58 178,68 178,89 160,99 142,89 142,68"/>
+            <polygon points="160,99 178,109 178,130 160,140 142,130 142,109"/>
+            <polygon points="124,78 142,89 142,109 124,120 106,109 106,89"/>
+            <polygon points="196,78 214,89 214,109 196,120 178,109 178,89"/>
+            <polygon points="124,38 142,48 142,68 124,78 106,68 106,48"/>
+            <polygon points="196,38 214,48 214,68 196,78 178,68 178,48"/>
+            <polygon points="160,18 178,27 178,48 160,58 142,48 142,27"/>
+            <polygon points="124,120 142,130 142,150 124,160 106,150 106,130"/>
+            <polygon points="196,120 214,130 214,150 196,160 178,150 178,130"/>
+          </g>
+          <circle cx="160" cy="99" r="5" fill="#000"/>
+        </svg>
+      </span>
+      <div class="body">
+        <p class="dir" data-t="obs-dir">Looking out at the Universe</p>
+        <h2><a href="https://rolgim.github.io/Observatories/" data-href="https://rolgim.github.io/Observatories/#{l}-" data-t="obs-name">Observatories in orbit</a></h2>
+        <p class="alt" data-t="obs-alt" lang="fr">Observatoires en orbite</p>
+        <p class="desc" data-t="obs-desc">Space telescopes from Hubble, Compton and Chandra to Webb, Euclid and Roman: clickable parts, exploded views, deployments, a true-scale comparison, their instruments and archives.</p>
+        <p class="count"><b>18</b> <span data-t="obs-count">space observatories</span></p>
+        <p class="ex">Hubble · Chandra · Gaia · JWST · Euclid · Roman…</p>
+        <div class="links">
+          <a class="go" href="https://rolgim.github.io/Observatories/" data-href="https://rolgim.github.io/Observatories/#{l}-" tabindex="-1" aria-hidden="true" data-t="open">Open the site</a>
+          <a class="code" href="https://github.com/Rolgim/Observatories" data-t="obs-code" aria-label="Observatories in orbit: source code on GitHub">Source code</a>
+        </div>
+      </div>
+    </li>
+
+    <li class="site sse">
+      <span class="port" aria-hidden="true">
+        <svg viewBox="0 0 320 200">
+          <g fill="#fff" opacity=".6"><circle cx="300" cy="22" r="1"/><circle cx="250" cy="182" r="1.2"/><circle cx="180" cy="14" r=".9"/><circle cx="306" cy="150" r=".8"/></g>
+          <circle cx="-60" cy="100" r="92" fill="#FFD21F" opacity=".95"/>
+          <g fill="none" stroke="#5A6369" stroke-width="1.2">
+            <circle cx="-60" cy="100" r="140"/><circle cx="-60" cy="100" r="196"/><circle cx="-60" cy="100" r="262"/><circle cx="-60" cy="100" r="340"/>
+          </g>
+          <circle cx="80" cy="100" r="5" fill="#98A1A7"/>
+          <circle cx="133" cy="62" r="8" fill="#C8CDD1"/>
+          <circle cx="280" cy="120" r="12" fill="#C8CDD1"/>
+          <g transform="translate(202 92)">
+            <circle r="15" fill="#C1653A"/>
+            <ellipse rx="34" ry="11" fill="none" stroke="#2F6FE4" stroke-width="2.2" transform="rotate(-24)"/>
+            <g transform="rotate(-24)"><rect x="27" y="-3" width="14" height="5" fill="#2F6FE4"/><rect x="32" y="-6" width="4" height="11" fill="#fff"/></g>
+          </g>
+        </svg>
+      </span>
+      <div class="body">
+        <p class="dir" data-t="sse-dir">Across to the planets</p>
+        <h2><a href="https://rolgim.github.io/SolarExplorers/" data-href="https://rolgim.github.io/SolarExplorers/#{l}-" data-t="sse-name">Solar System Explorers</a></h2>
+        <p class="alt" data-t="sse-alt" lang="fr">Explorateurs du Système solaire</p>
+        <p class="desc" data-t="sse-desc">Planetary probes in orbit around Mars, the Moon, Mercury, Venus and Saturn: 3D models, sourced fact sheets, instruments, real trajectories and real archive data, much of it from the STAC-PLANET catalogue.</p>
+        <p class="count"><b>17</b> <span data-t="sse-count">planetary probes</span></p>
+        <p class="ex">MRO · Mars Express · LRO · Cassini · MESSENGER…</p>
+        <div class="links">
+          <a class="go" href="https://rolgim.github.io/SolarExplorers/" data-href="https://rolgim.github.io/SolarExplorers/#{l}-" tabindex="-1" aria-hidden="true" data-t="open">Open the site</a>
+          <a class="code" href="https://github.com/Rolgim/SolarExplorers" data-t="sse-code" aria-label="Solar System Explorers: source code on GitHub">Source code</a>
+        </div>
+      </div>
+    </li>
+
+    <li class="site eo">
+      <span class="port" aria-hidden="true">
+        <svg viewBox="0 0 320 200">
+          <g fill="#fff" opacity=".6"><circle cx="30" cy="24" r="1"/><circle cx="290" cy="30" r="1.1"/><circle cx="24" cy="170" r=".9"/><circle cx="298" cy="176" r="1"/></g>
+          <defs><clipPath id="eo-g"><circle cx="160" cy="104" r="62"/></clipPath></defs>
+          <circle cx="160" cy="104" r="62" fill="#1F4E9A"/>
+          <g clip-path="url(#eo-g)" fill="#2FA872">
+            <path d="M118 62c14-8 30-6 34 6 4 11-8 15-4 25 4 9 18 6 20 18 2 10-8 20-16 26-16-2-26-16-30-28-3-10-16-14-10-33z"/>
+            <path d="M182 56c10-4 26 2 30 12 3 8-4 14-12 13-9-1-10 8-18 8-8 0-10-10-8-18 1-7 3-12 8-15z"/>
+            <path d="M196 120c8-4 18 0 20 8 2 7-4 14-11 16-8 2-14-4-14-11 0-6 1-10 5-13z"/>
+          </g>
+          <circle cx="160" cy="104" r="62" fill="none" stroke="#fff" stroke-opacity=".25"/>
+          <g fill="none" stroke-width="1.6">
+            <ellipse cx="160" cy="104" rx="96" ry="24" stroke="#2FA872" transform="rotate(-62 160 104)"/>
+            <ellipse cx="160" cy="104" rx="110" ry="30" stroke="#5A6369" transform="rotate(20 160 104)"/>
+          </g>
+          <g transform="rotate(20 160 104)"><rect x="254" y="102" width="32" height="3" fill="#fff"/><rect x="264" y="100" width="12" height="7" fill="#2FA872"/></g>
+        </svg>
+      </span>
+      <div class="body">
+        <p class="dir" data-t="eo-dir">Back down at the Earth</p>
+        <h2><a href="https://rolgim.github.io/EarthObservers/" data-href="https://rolgim.github.io/EarthObservers/#{l}-" data-t="eo-name">Earth Observers</a></h2>
+        <p class="alt" data-t="eo-alt" lang="fr">Observateurs de la Terre</p>
+        <p class="desc" data-t="eo-desc">Earth observation satellites shown where they are right now, computed in your browser from their orbital elements: 3D models, sourced fact sheets, instruments, orbits and real archive data.</p>
+        <p class="count"><b>20</b> <span data-t="eo-count">Earth observation satellites</span></p>
+        <p class="ex">Landsat 9 · Sentinels · Terra · SWOT · NISAR…</p>
+        <div class="links">
+          <a class="go" href="https://rolgim.github.io/EarthObservers/" data-href="https://rolgim.github.io/EarthObservers/#{l}-" tabindex="-1" aria-hidden="true" data-t="open">Open the site</a>
+          <a class="code" href="https://github.com/Rolgim/EarthObservers" data-t="eo-code" aria-label="Earth Observers: source code on GitHub">Source code</a>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <section class="common" aria-labelledby="h-common">
+    <h2 id="h-common" data-t="common">What the three sites share</h2>
+    <ul class="rules">
+      <li><h3 data-t="r1-h">Everything is sourced</h3><p data-t="r1-p">Every figure on a fact sheet links to the page it comes from: the space agency, the mission team or the archive.</p></li>
+      <li><h3 data-t="r2-h">Approximations are flagged</h3><p data-t="r2-p">When a drawing, an orbit or an orientation is schematic rather than measured, the site says so next to it.</p></li>
+      <li><h3 data-t="r3-h">Real data</h3><p data-t="r3-p">The images come from the public archives of NASA, ESA, JAXA and their partners, with their own credit lines.</p></li>
+      <li><h3 data-t="r4-h">Two languages</h3><p data-t="r4-p">Every page exists in English and in French, and the language button keeps you on the same page.</p></li>
+      <li><h3 data-t="r5-h">Accessible</h3><p data-t="r5-p">Tested against WCAG 2.1 level AA in a real browser: keyboard navigation, contrast, text alternatives for the 3D views.</p></li>
+      <li><h3 data-t="r6-h">Open and non-commercial</h3><p data-t="r6-p">The code is under the Apache 2.0 licence. Each image keeps its own licence, listed in each site's credits register.</p></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <span data-t="foot-made">A personal, non-commercial project.</span>
+  <a href="https://github.com/Rolgim/rolgim.github.io" data-t="foot-code">Source code of this page</a>
+  <a href="https://github.com/Rolgim/rolgim.github.io/blob/main/CREDITS.md" data-t="foot-credits">Credits and licences</a>
+</footer>
+
+<script>
+/* Textes français. Le HTML porte l'anglais (langue par défaut des trois sites). */
+var FR = {
+  'skip':'Aller aux trois sites', 'brand':'Regards depuis l’espace',
+  'kicker':'Trois guides interactifs', 'h1':'Regards depuis l’espace',
+  'lede':'Les engins spatiaux qui regardent l’Univers, qui vont voir les planètes, et qui se retournent vers la Terre. Chacun en 3D, avec sa fiche sourcée, ses instruments et de vraies données tirées des archives publiques.',
+  'obs-dir':'Vers l’Univers', 'obs-name':'Observatoires en orbite', 'obs-alt':'Observatories in orbit',
+  'obs-desc':'Les télescopes spatiaux, de Hubble, Compton et Chandra à Webb, Euclid et Roman : pièces cliquables, vues éclatées, déploiements, comparaison à l’échelle, instruments et archives.',
+  'obs-count':'observatoires spatiaux', 'obs-code':'Code source',
+  'sse-dir':'Vers les planètes', 'sse-name':'Explorateurs du Système solaire', 'sse-alt':'Solar System Explorers',
+  'sse-desc':'Les sondes planétaires en orbite autour de Mars, de la Lune, de Mercure, de Vénus et de Saturne : maquettes 3D, fiches sourcées, instruments, trajectoires réelles et vraies données d’archive, en bonne partie tirées du catalogue STAC-PLANET.',
+  'sse-count':'sondes planétaires', 'sse-code':'Code source',
+  'eo-dir':'Vers la Terre', 'eo-name':'Observateurs de la Terre', 'eo-alt':'Earth Observers',
+  'eo-desc':'Les satellites d’observation de la Terre à leur position du moment, calculée dans votre navigateur à partir de leurs éléments orbitaux : maquettes 3D, fiches sourcées, instruments, orbites et vraies données d’archive.',
+  'eo-count':'satellites d’observation de la Terre', 'eo-code':'Code source',
+  'open':'Ouvrir le site',
+  'common':'Ce que les trois sites partagent',
+  'r1-h':'Tout est sourcé', 'r1-p':'Chaque chiffre d’une fiche renvoie à la page d’où il vient : agence spatiale, équipe de la mission ou archive.',
+  'r2-h':'Les approximations sont signalées', 'r2-p':'Quand un dessin, une orbite ou une orientation est schématique plutôt que mesuré, le site le dit à côté.',
+  'r3-h':'De vraies données', 'r3-p':'Les images viennent des archives publiques de la NASA, de l’ESA, de la JAXA et de leurs partenaires, avec leur propre crédit.',
+  'r4-h':'Deux langues', 'r4-p':'Chaque page existe en anglais et en français, et le bouton de langue garde la même page.',
+  'r5-h':'Accessible', 'r5-p':'Testé selon le niveau AA des WCAG 2.1 dans un vrai navigateur : navigation au clavier, contrastes, textes de remplacement des vues 3D.',
+  'r6-h':'Ouvert et non commercial', 'r6-p':'Le code est sous licence Apache 2.0. Chaque image garde sa propre licence, listée dans le registre des crédits de chaque site.',
+  'foot-made':'Un projet personnel, non commercial.', 'foot-code':'Code source de cette page', 'foot-credits':'Crédits et licences'
+};
+(function(){
+  var d = document.documentElement, L = d.lang, EN = {};
+  var nodes = document.querySelectorAll('[data-t]');
+  for (var i = 0; i < nodes.length; i++) EN[nodes[i].getAttribute('data-t')] = nodes[i].textContent;
+  var A11Y = {
+    en:{ title:'Views from space', lang:['FR','Lire en français','fr'], dark:'Dark theme', light:'Light theme', code:' source code on GitHub',
+         desc:'Three interactive guides to the spacecraft that observe the Universe, the Solar System and the Earth: 3D models, sourced fact sheets, instruments and real archive data. In English and French.' },
+    fr:{ title:'Regards depuis l’espace', lang:['EN','Read in English','en'], dark:'Thème sombre', light:'Thème clair', code:' : code source sur GitHub',
+         desc:'Trois guides interactifs des engins spatiaux qui observent l’Univers, le Système solaire et la Terre : maquettes 3D, fiches sourcées, instruments et vraies données d’archive. En français et en anglais.' }
+  };
+  function dark(){ var a = d.getAttribute('data-theme'); return a ? a === 'dark' : !!(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); }
+  function apply(){
+    var T = L === 'fr' ? FR : EN, a = A11Y[L];
+    d.lang = L; document.title = a.title;
+    document.querySelector('meta[name="description"]').setAttribute('content', a.desc);
+    document.querySelector('.mark').setAttribute('aria-label', a.title);
+    for (var i = 0; i < nodes.length; i++){
+      var n = nodes[i], k = n.getAttribute('data-t');
+      if (T[k] != null) n.textContent = T[k];
+      if (/-alt$/.test(k)) n.lang = L === 'fr' ? 'en' : 'fr';
+    }
+    /* liens vers les sites : ouvrir dans la même langue (#fr- / #en- est compris par les trois sites) */
+    var ls = document.querySelectorAll('[data-href]');
+    for (var j = 0; j < ls.length; j++) ls[j].href = ls[j].getAttribute('data-href').replace('{l}', L);
+    var cs = document.querySelectorAll('a.code');
+    for (var c = 0; c < cs.length; c++){ var nm = cs[c].closest('.site').querySelector('h2 a').textContent; cs[c].setAttribute('aria-label', nm + (L === 'fr' ? a.code : ':' + a.code)); }
+    var bl = document.getElementById('b-lang');
+    bl.textContent = a.lang[0]; bl.setAttribute('aria-label', a.lang[1]); bl.lang = a.lang[2];
+    document.getElementById('b-theme').setAttribute('aria-label', dark() ? a.light : a.dark);
+  }
+  document.getElementById('b-lang').addEventListener('click', function(){
+    L = L === 'fr' ? 'en' : 'fr';
+    try { localStorage.setItem('home-lang', L); } catch(e){}
+    history.replaceState(null, '', '#' + L);
+    apply();
+  });
+  document.getElementById('b-theme').addEventListener('click', function(){
+    var t = dark() ? 'light' : 'dark';
+    d.setAttribute('data-theme', t);
+    try { localStorage.setItem('home-theme', t); } catch(e){}
+    apply();
+  });
+  window.addEventListener('hashchange', function(){ var m = /^#(en|fr)\b/.exec(location.hash); if (m && m[1] !== L){ L = m[1]; apply(); } });
+  apply();
+})();
+</script>
+</body>
+</html>

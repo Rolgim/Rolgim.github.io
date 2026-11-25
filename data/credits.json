@@ -1,0 +1,43 @@
+{
+ "generated": "2026-11-25",
+ "items": [
+  {
+   "kind": "police",
+   "file": "Google Fonts",
+   "title": "Archivo",
+   "source": "https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800",
+   "page": "https://fonts.google.com/specimen/Archivo",
+   "license": "SIL Open Font License 1.1",
+   "license_url": "https://openfontlicense.org/",
+   "credit": "Omnibus-Type",
+   "fetched": "2026-11-25",
+   "transform": "aucune (chargée depuis Google Fonts)",
+   "status": "ok"
+  },
+  {
+   "kind": "police",
+   "file": "Google Fonts",
+   "title": "IBM Plex Mono",
+   "source": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500",
+   "page": "https://fonts.google.com/specimen/IBM+Plex+Mono",
+   "license": "SIL Open Font License 1.1",
+   "license_url": "https://openfontlicense.org/",
+   "credit": "IBM",
+   "fetched": "2026-11-25",
+   "transform": "aucune (chargée depuis Google Fonts)",
+   "status": "ok"
+  },
+  {
+   "kind": "illustration propre",
+   "file": "index.html (SVG en ligne)",
+   "title": "Illustrations des trois cartes et icône favicon.svg",
+   "source": "dessinées pour la page",
+   "license": "Apache 2.0",
+   "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
+   "credit": "Rolgim",
+   "fetched": "2026-11-25",
+   "transform": "schémas sans échelle (voir CREDITS.md)",
+   "status": "ok"
+  }
+ ]
+}
