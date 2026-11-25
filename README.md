@@ -19,6 +19,7 @@ Les liens ouvrent chaque site dans la langue choisie sur la page d'accueil (`#fr
 | `index.html` | toute la page : HTML (textes anglais), CSS, script (textes français, langue, thème). Aucune dépendance, aucune étape de construction |
 | `favicon.svg` | icône : trois points aux couleurs des trois sites |
 | `tools/check.js` | test dans un vrai navigateur : accessibilité WCAG 2.1 A et AA (axe-core), erreurs JavaScript, défilement horizontal, langue et liens, en clair et en sombre, sur bureau et mobile |
+| `socle/` | **socle commun** des sites de la série (construction, langue, traduction, visionneuse 3D, styles de base, outils de test), copié dans chaque site par `node socle/sync.js` ; non publié sur la page d'accueil. Mode d'emploi : [socle/README.md](socle/README.md) |
 | `CREDITS.md`, `data/credits.json` | registre de ce que la page affiche sans l'avoir créé |
 | `.github/workflows/` | `pages.yml` publie sur GitHub Pages ; `tests.yml` lance `tools/check.js` |
 
