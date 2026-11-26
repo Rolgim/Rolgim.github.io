@@ -6,7 +6,7 @@ const fs = require('fs'), path = require('path');
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const url = 'file://' + path.resolve(__dirname, '..', 'index.html');
 const shots = process.argv[2];
-const SITES = ['Observatories', 'SolarExplorers', 'EarthObservers'];
+const SITES = ['Observatories', 'SolarExplorers', 'EarthObservers', 'Launchers'];
 (async () => {
   const b = await chromium.launch(); let bad = 0;
   for (const [name, width, lang, scheme] of [
